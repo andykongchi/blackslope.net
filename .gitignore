@@ -86,3 +86,5 @@ _[Ss]cripts
 
 publish/
 .vscode
+
+.terraform/
