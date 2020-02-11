@@ -88,3 +88,6 @@ publish/
 .vscode
 
 .terraform/
+terraform/_local.auto.tfvars
+*.tfstate
+*.tfstate.backup
