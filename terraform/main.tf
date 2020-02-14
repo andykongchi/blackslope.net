@@ -25,7 +25,7 @@ resource "aws_internet_gateway" "gw" {
 }
 
 resource "aws_route_table" "public" {
-  count = 1
+  count  = 1
   vpc_id = aws_vpc.blackslope_main.id
 
   tags = {
@@ -115,13 +115,14 @@ resource "aws_security_group" "allow_postgres" {
 }
 
 resource "aws_rds_cluster" "postgres_cluster" {
-  cluster_identifier     = "blackslope-cluster-pg"
-  engine                 = "aurora-postgresql"
-  database_name          = "blackslope"
-  master_username        = var.aurora_master_username
-  master_password        = var.aurora_master_password
-  vpc_security_group_ids = [aws_security_group.allow_postgres.id]
-  db_subnet_group_name   = aws_db_subnet_group.aurora_subnet_group.name
+  cluster_identifier        = "blackslope-cluster-pg"
+  engine                    = "aurora-postgresql"
+  database_name             = "blackslope"
+  master_username           = var.aurora_master_username
+  master_password           = var.aurora_master_password
+  vpc_security_group_ids    = [aws_security_group.allow_postgres.id]
+  db_subnet_group_name      = aws_db_subnet_group.aurora_subnet_group.name
+  final_snapshot_identifier = "blackslope-aurora-final-snapshot"
 
   tags = {
     Owner   = var.tags_owner
