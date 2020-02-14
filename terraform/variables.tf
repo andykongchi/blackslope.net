@@ -24,3 +24,8 @@ variable "tags_owner" {
 variable "tags_email" {
   description = "Deployment owner's email (tag value)"
 }
+
+variable "security_group_inbound_outbound_ip_cidr" {
+  default     = ["0.0.0.0/0"]
+  description = "Security Group Inbound and Outbound IP CIDR blocks"
+}

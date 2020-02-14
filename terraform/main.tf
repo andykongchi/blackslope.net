@@ -102,14 +102,14 @@ resource "aws_security_group" "allow_postgres" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = var.security_group_inbound_outbound_ip_cidr
   }
 
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = var.security_group_inbound_outbound_ip_cidr
   }
 
   tags = {
