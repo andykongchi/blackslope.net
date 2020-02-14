@@ -27,14 +27,13 @@ Install the latest verison of .NET Core for Windows/Linux or Mac.
     ```
 3. Open PowerShell to your repository root directory and run the following command:
     ```
-    dotnet ef database update --project src/BlackSlope.Hosts.Api/BlackSlope.Hosts.Api.csproj
+    dotnet ef database update --project src/BlackSlope.Api/BlackSlope.Api.csproj
     ```
 4. If successful, the result of the above command will be similar to the following example:
     ```
     Build started...
     Build succeeded.
-    Applying migration '20190814225754_initialized'.
-    Applying migration '20190814225910_seeded'.
+    Applying migration <...>
     Done.
     ```
 

@@ -3,7 +3,9 @@ provider "aws" {
 }
 
 resource "aws_vpc" "blackslope_main" {
-  cidr_block = "10.0.0.0/16"
+  cidr_block           = "10.0.0.0/16"
+  enable_dns_support   = true
+  enable_dns_hostnames = true
 
   tags = {
     Owner   = var.tags_owner
@@ -12,12 +14,63 @@ resource "aws_vpc" "blackslope_main" {
   }
 }
 
+resource "aws_internet_gateway" "gw" {
+  vpc_id = aws_vpc.blackslope_main.id
+
+  tags = {
+    Owner   = var.tags_owner
+    Email   = var.tags_email
+    Purpose = var.tags_purpose
+  }
+}
+
+resource "aws_route_table" "public" {
+  count = 1
+  vpc_id = aws_vpc.blackslope_main.id
+
+  tags = {
+    Owner   = var.tags_owner
+    Email   = var.tags_email
+    Purpose = var.tags_purpose
+  }
+}
+
+resource "aws_route" "public_internet_gateway" {
+  count                  = 1
+  route_table_id         = aws_route_table.public[0].id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id             = aws_internet_gateway.gw.id
+  timeouts {
+    create = "5m"
+  }
+}
+resource "aws_route" "public_internet_gateway_ipv6" {
+  count                       = 1
+  route_table_id              = aws_route_table.public[0].id
+  destination_ipv6_cidr_block = "::/0"
+  gateway_id                  = aws_internet_gateway.gw.id
+}
+
 resource "aws_subnet" "blackslope_main-public-1" {
+  availability_zone       = "${var.aws_region}a"
   vpc_id                  = aws_vpc.blackslope_main.id
   cidr_block              = "10.0.1.0/24"
   map_public_ip_on_launch = true
 
-  tags {
+  tags = {
+    Owner   = var.tags_owner
+    Email   = var.tags_email
+    Purpose = var.tags_purpose
+  }
+}
+
+resource "aws_subnet" "blackslope_main-public-2" {
+  availability_zone       = "${var.aws_region}b"
+  vpc_id                  = aws_vpc.blackslope_main.id
+  cidr_block              = "10.0.2.0/24"
+  map_public_ip_on_launch = true
+
+  tags = {
     Owner   = var.tags_owner
     Email   = var.tags_email
     Purpose = var.tags_purpose
@@ -26,7 +79,7 @@ resource "aws_subnet" "blackslope_main-public-1" {
 
 resource "aws_db_subnet_group" "aurora_subnet_group" {
   name       = "blackslope_aurora_subnet_group"
-  subnet_ids = [aws_subnet.blackslope_main-public-1.id]
+  subnet_ids = [aws_subnet.blackslope_main-public-1.id, aws_subnet.blackslope_main-public-2.id]
 
   tags = {
     Owner   = var.tags_owner
@@ -53,16 +106,22 @@ resource "aws_security_group" "allow_postgres" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  tags = {
+    Owner   = var.tags_owner
+    Email   = var.tags_email
+    Purpose = var.tags_purpose
+  }
 }
 
 resource "aws_rds_cluster" "postgres_cluster" {
   cluster_identifier     = "blackslope-cluster-pg"
   engine                 = "aurora-postgresql"
   database_name          = "blackslope"
-  master_username        = "blackslope_user"
+  master_username        = var.aurora_master_username
   master_password        = var.aurora_master_password
   vpc_security_group_ids = [aws_security_group.allow_postgres.id]
-  db_subnet_group_name   = 
+  db_subnet_group_name   = aws_db_subnet_group.aurora_subnet_group.name
 
   tags = {
     Owner   = var.tags_owner

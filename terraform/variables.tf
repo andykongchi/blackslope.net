@@ -3,12 +3,17 @@ variable "aws_region" {
   description = "AWS Region (e.g. us-east-1)"
 }
 
+variable "aurora_master_username" {
+  default     = "blackslope_user"
+  description = "Aurora Cluster Master Username"
+}
+
 variable "aurora_master_password" {
   description = "Aurora Cluster Master Password"
 }
 
 variable "tags_purpose" {
-  default = "Blackslope.net"
+  default     = "Blackslope.net"
   description = "Purpose for deployment (tag value)"
 }
 

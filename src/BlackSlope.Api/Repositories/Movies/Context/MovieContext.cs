@@ -29,6 +29,9 @@ namespace BlackSlope.Repositories.Movies.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             Contract.Requires(modelBuilder != null);
+            
+            modelBuilder.UseSerialColumns();
+
             modelBuilder.Entity<MovieDtoModel>(entity =>
             {
                 entity.HasIndex(e => e.Title)
