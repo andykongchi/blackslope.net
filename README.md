@@ -60,3 +60,20 @@ The following rules are currently ignored.
 | SA1600 | Elements should be documented |
 | SA1614 | Element parameter documentation must have text |
 | SA1616 | Element return value documentation must have text |
+
+### Terraform
+1. `cd terraform`
+2. Add _local.auto.tfvars in terraform file (recommended) or apply variables via CLI manually
+```
+aurora_master_password                  = ""
+tags_owner                              = "Your name"
+tags_email                              = "your@email.com"
+tags_purpose                            = "Blackslope db environment"
+security_group_inbound_outbound_ip_cidr = ["your_ip_address/32"]
+
+```
+3. `terraform plan`
+4. `terraform apply`
+
+### Flyway
+1. `flyway migrate -locations="filesystem:flyway/sql"`

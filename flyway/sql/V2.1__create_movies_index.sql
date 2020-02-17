@@ -1,0 +1,1 @@
+CREATE INDEX "IX_Movies_Title" ON public."Movies" USING btree ("Title");
