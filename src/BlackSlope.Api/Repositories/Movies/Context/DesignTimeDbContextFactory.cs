@@ -12,7 +12,7 @@ namespace BlackSlope.Repositories.Movies.Context
         public MovieContext CreateDbContext(string[] args)
         {
             var configuration = new ConfigurationBuilder()
-                        .SetBasePath(Directory.GetCurrentDirectory())
+                        .SetBasePath(Path.GetDirectoryName(Assembly.GetAssembly(typeof(MovieContext)).Location))
                         .AddJsonFile("appsettings.json")
                         .Build();
 

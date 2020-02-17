@@ -17,7 +17,7 @@ namespace BlackSlope.Repositories.Movies.Context
             : base(options)
         {
             var configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
+                .SetBasePath(Path.GetDirectoryName(Assembly.GetAssembly(typeof(MovieContext)).Location))
                 .AddJsonFile("appsettings.json")
                 .Build();
             _config = configuration.GetSection(Assembly.GetExecutingAssembly().GetName().Name)
