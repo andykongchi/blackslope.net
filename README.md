@@ -76,4 +76,8 @@ security_group_inbound_outbound_ip_cidr = ["your_ip_address/32"]
 4. `terraform apply`
 
 ### Flyway
-1. `flyway migrate -locations="filesystem:flyway/sql"`
+1. Setup flyway.conf in flyway installation `/conf` directory
+2. `flyway migrate -locations="filesystem:flyway/sql"`
+
+### Liquibase
+1. `liquibase --url="jdbc:postgresql://update_host_here:5432/blackslope" --username="blackslope_user" --password="<password or update liquibase.properties>" update`
