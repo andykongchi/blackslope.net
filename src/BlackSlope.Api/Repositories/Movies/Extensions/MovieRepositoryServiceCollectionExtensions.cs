@@ -27,7 +27,7 @@ namespace Microsoft.Extensions.DependencyInjection
             var movieContext = serviceProvider.GetService<MovieContext>();
             if (movieContext == null)
             {
-                services.AddDbContext<MovieContext>(options => options.UseSqlServer(config.MoviesConnectionString));
+                services.AddDbContext<MovieContext>(options => options.UseNpgsql(config.MoviesConnectionString));
             }
 
             return services;

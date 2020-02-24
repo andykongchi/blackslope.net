@@ -1,0 +1,53 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.8.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet author="andy.kong (generated)" id="1582041958376-1">
+        <createTable tableName="Movies">
+            <column autoIncrement="true" name="Id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_Movies"/>
+            </column>
+            <column name="Title" type="TEXT"/>
+            <column name="Description" type="TEXT"/>
+            <column name="ReleaseDate" type="TIMESTAMP WITH TIME ZONE"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="andy.kong (generated)" id="1582041958376-2">
+        <createTable tableName="flyway_schema_history">
+            <column name="installed_rank" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="flyway_schema_history_pk"/>
+            </column>
+            <column name="version" type="VARCHAR(50)"/>
+            <column name="description" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="script" type="VARCHAR(1000)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="checksum" type="INTEGER"/>
+            <column name="installed_by" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="now()" name="installed_on" type="TIMESTAMP WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="execution_time" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="success" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="andy.kong (generated)" id="1582041958376-3">
+        <createIndex indexName="IX_Movies_Title" tableName="Movies">
+            <column name="Title"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="andy.kong (generated)" id="1582041958376-4">
+        <createIndex indexName="flyway_schema_history_s_idx" tableName="flyway_schema_history">
+            <column name="success"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

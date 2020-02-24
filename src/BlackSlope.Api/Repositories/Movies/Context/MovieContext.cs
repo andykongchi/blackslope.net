@@ -17,7 +17,7 @@ namespace BlackSlope.Repositories.Movies.Context
             : base(options)
         {
             var configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
+                .SetBasePath(Path.GetDirectoryName(Assembly.GetAssembly(typeof(MovieContext)).Location))
                 .AddJsonFile("appsettings.json")
                 .Build();
             _config = configuration.GetSection(Assembly.GetExecutingAssembly().GetName().Name)
@@ -29,6 +29,9 @@ namespace BlackSlope.Repositories.Movies.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             Contract.Requires(modelBuilder != null);
+            
+            modelBuilder.UseSerialColumns();
+
             modelBuilder.Entity<MovieDtoModel>(entity =>
             {
                 entity.HasIndex(e => e.Title)

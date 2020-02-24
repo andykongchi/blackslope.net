@@ -12,14 +12,14 @@ namespace BlackSlope.Repositories.Movies.Context
         public MovieContext CreateDbContext(string[] args)
         {
             var configuration = new ConfigurationBuilder()
-                        .SetBasePath(Directory.GetCurrentDirectory())
+                        .SetBasePath(Path.GetDirectoryName(Assembly.GetAssembly(typeof(MovieContext)).Location))
                         .AddJsonFile("appsettings.json")
                         .Build();
 
             var builder = new DbContextOptionsBuilder<MovieContext>();
             var config = configuration.GetSection(Assembly.GetExecutingAssembly().GetName().Name)
                             .Get<MovieRepositoryConfiguration>();
-            builder.UseSqlServer(config.MoviesConnectionString);
+            builder.UseNpgsql(config.MoviesConnectionString);
 
             return new MovieContext(builder.Options);
         }
